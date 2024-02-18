@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class BeatMatching : MonoBehaviour
@@ -10,17 +11,19 @@ public class BeatMatching : MonoBehaviour
     [SerializeField] public int NoteValue = 4; //1/4音符的时值
     [SerializeField] public bool isOntheBeat;
 
-    private float musicTimer;
-    private float secondPerBeat;
+    public float musicTimer { get; private set; }
+    public float secondPerBeat { get; private set; }
     private float thisBeatTime;
     private float nextBeatTime;
 
-    // Start is called before the first frame update
+    private int beatCount = 0;
+    public event Action<int> OnBeat;
+
+
     void Start()
     {
         AS = GetComponent<AudioSource>();
-
-        //Set UP
+        
         secondPerBeat = (60 / MusicBPM) / (NoteValue / 4);
         musicTimer = 0.0f;
         thisBeatTime = 0;
@@ -39,6 +42,17 @@ public class BeatMatching : MonoBehaviour
     {
         thisBeatTime += secondPerBeat;
         nextBeatTime += secondPerBeat;
+        beatCount++;
+        
+        OnBeat?.Invoke(beatCount);
+
+        if (beatCount == 4)
+        {
+            //第四拍的动作
+            Debug.Log("Fourth Beat!");
+            
+            beatCount = 0;
+        }
     }
 
     bool IsOntheBeat()

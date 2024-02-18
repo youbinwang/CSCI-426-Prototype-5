@@ -28,4 +28,27 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(movementInput.normalized * movementSpeed);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            PlayerDied();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            PlayerDied();
+        }
+    }
+
+
+
+    public void PlayerDied()
+    {
+        Debug.Log("Player Died!");
+    }
 }
