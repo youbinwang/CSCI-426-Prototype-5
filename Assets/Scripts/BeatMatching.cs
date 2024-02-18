@@ -27,8 +27,7 @@ public class BeatMatching : MonoBehaviour
         nextBeatTime = secondPerBeat;
         InvokeRepeating("BeatTick", 0.0f, secondPerBeat);
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         musicTimer += Time.deltaTime;
@@ -47,6 +46,7 @@ public class BeatMatching : MonoBehaviour
         if (Mathf.Abs(thisBeatTime - musicTimer) <= 0.03f)
         {
             isOntheBeat = true;
+            //在节拍上的判定
             return true;
         }
         else

@@ -12,18 +12,22 @@ public class BM_Tester : MonoBehaviour
 
     [Header("Test Feedbacks")]
     [SerializeField] public MMFeedbacks fb;
-
-    // Start is called before the first frame update
+    
+    
+    
     void Start()
     {
         beatMatching = BM.GetComponent<BeatMatching>();
     }
 
-    // Update is called once per frame
+    
+    
+
     void Update()
     {
         if (beatMatching.isOntheBeat)
         {
+            //在Beat上的Feedback效果
             fb.PlayFeedbacks();
         }
         else
