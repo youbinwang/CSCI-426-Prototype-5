@@ -275,7 +275,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Time: 0.7
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -569,7 +569,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Time: 0.25
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -1186,7 +1186,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Time: 0.25
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -1668,7 +1668,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 82561165a69474941af4b3ce90a9135c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f3cc78323bab14cb39fa9944fa61fdf2, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1767,7 +1767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AS: {fileID: 1768285608}
-  MusicBPM: 120
+  MusicBPM: 60
   NoteValue: 4
   isOntheBeat: 0
 --- !u!1 &2114525509
