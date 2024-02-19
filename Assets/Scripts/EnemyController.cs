@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
@@ -14,16 +16,25 @@ public class EnemyController : MonoBehaviour
     public float explosionDuration = 0.25f;
 
     private SpriteRenderer spriteRenderer;
+    public Transform player;
+    
     
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
         explosionScale = new Vector3(explosionScaleValue, explosionScaleValue, explosionScaleValue);
         
         if (beatMatching != null)
         {
             beatMatching.OnBeat += MoveOnBeat;
+        }
+    }
+
+    private void Update()
+    {
+        if (player != null && Vector3.Distance(transform.position, player.position) > 70f) //与玩家距离 > x
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -90,7 +101,6 @@ public class EnemyController : MonoBehaviour
     
     void EnemyFourthBeat()
     {
-        Debug.Log("Enemy Fourth Beat Action!");
         if (attackTransform != null)
         {
             attackTransform.localScale = explosionScale;
