@@ -8,10 +8,22 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed = 10f;
     private Rigidbody2D rb;
     private Vector2 movementInput;
+    public ParticleSystem enemyHit;
+    public AudioClip[] hitSounds;
+    private AudioSource audioSource;
+
+    public ParticleSystem playerDied;
+    public GameObject gameEndUI;
+    public GameManager gameManager;
+    
+    private bool isFlickering = false;
+    public SpriteRenderer circleSprite; 
+    
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -39,16 +51,57 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("EnemyHit"))
         {
-            PlayerDied();
+            PlayerHit(collision.gameObject);
         }
     }
 
+    public void PlayerHit(GameObject hitObject)
+    {
+        enemyHit.Play();
+        GameManager.score++;
+        
+        if (!isFlickering)
+        {
+            StartCoroutine(FlickerAndPause());
+        }
+        
+        if (hitSounds.Length > 0)
+        {
+            AudioClip clip = hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)];
+            audioSource.PlayOneShot(clip);
+        }
+        
+
+        Destroy(hitObject);
+    }
+
+
+    IEnumerator FlickerAndPause()
+    {
+        isFlickering = true;
+        float flickerDuration = 0.2f;
+
+        for (int i = 0; i < 3; i++)
+        {
+            circleSprite.color = Color.white;
+            yield return new WaitForSecondsRealtime(flickerDuration);
+            
+            circleSprite.color = new Color(1f, 0.8862f, 0.3686275f);
+            yield return new WaitForSecondsRealtime(flickerDuration);
+        }
+        isFlickering = false;
+    }
+    
 
 
     public void PlayerDied()
     {
+        Instantiate(playerDied, transform.position, Quaternion.identity).Play();
+        gameManager.PlayerDiedSound();
+        gameEndUI.SetActive(true);
         Debug.Log("Player Died!");
+        Destroy(gameObject);
     }
 }

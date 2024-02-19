@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (player != null && Vector3.Distance(transform.position, player.position) > 70f) //与玩家距离 > x
+        if (player != null && Vector3.Distance(transform.position, player.position) > 60f) //与玩家距离 > x
         {
             Destroy(gameObject);
         }
