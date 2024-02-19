@@ -66,15 +66,17 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(FlickerAndPause());
         }
+
+        hitObject.GetComponent<EnemyController>().isEnemyDie = true;
         
-        if (hitSounds.Length > 0)
-        {
-            AudioClip clip = hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)];
-            audioSource.PlayOneShot(clip);
-        }
+        //if (hitSounds.Length > 0)
+        //{
+        //    AudioClip clip = hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)];
+        //    audioSource.PlayOneShot(clip);
+        //}
         
 
-        Destroy(hitObject);
+        //Destroy(hitObject);//我尝试将敌人的销毁也同步到节奏上
     }
 
 

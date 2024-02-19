@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using MoreMountains.Feedbacks;
+using MoreMountains.Tools;
 
 public class EnemyController : MonoBehaviour
 {
@@ -17,13 +19,19 @@ public class EnemyController : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     public Transform player;
-    
-    
+
+    //Enemy Destroy
+    [SerializeField] public bool isEnemyDie = false;
+    [SerializeField] public Color friendlyColor = new Color(1f, 1f, 1f, 0.5f);
+
+    [SerializeField] public MMFeedbacks enemyDieFeedbacks;
+    private bool isPlayedFeedback;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         explosionScale = new Vector3(explosionScaleValue, explosionScaleValue, explosionScaleValue);
-        
+
         if (beatMatching != null)
         {
             beatMatching.OnBeat += MoveOnBeat;
@@ -36,7 +44,24 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (isEnemyDie)//在节奏上销毁敌人并播放特效
+        {
+            spriteRenderer.color = friendlyColor;
+            if (beatMatching.isOntheBeat && !isPlayedFeedback)
+            {
+                isPlayedFeedback = true;
+                enemyDieFeedbacks.PlayFeedbacks();
+                Invoke("DestroyEnemy",0.2f);
+            }
+        }
     }
+
+    void DestroyEnemy()
+    {
+        Destroy(gameObject);
+    }
+
 
     void MoveOnBeat(int beatNumber)
     {
@@ -45,7 +70,7 @@ public class EnemyController : MonoBehaviour
             Vector3 targetPosition = transform.position + GetDirection() * moveDistance;
             StartCoroutine(MoveToPosition(transform.position, targetPosition, moveDuration));
         }
-        else if (beatNumber == 4)
+        else if (beatNumber == 4 && !isEnemyDie)
         {
             EnemyFourthBeat();
         }

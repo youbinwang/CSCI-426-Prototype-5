@@ -19,23 +19,65 @@ public class BeatMatching : MonoBehaviour
     private int beatCount = 0;
     public event Action<int> OnBeat;
 
+    //Music Start
+    [SerializeField] public bool isStartPlay;
+    private bool isMusicTimerStart;
 
     void Start()
     {
         AS = GetComponent<AudioSource>();
-        
-        secondPerBeat = (60 / MusicBPM) / (NoteValue / 4);
-        musicTimer = 0.0f;
-        thisBeatTime = 0;
-        nextBeatTime = secondPerBeat;
-        InvokeRepeating("BeatTick", 0.0f, secondPerBeat);
+        isStartPlay = false;
+
+        //secondPerBeat = (60 / MusicBPM) / (NoteValue / 4);
+        //musicTimer = 0.0f;
+        //thisBeatTime = 0;
+        //nextBeatTime = secondPerBeat;
+        //InvokeRepeating("BeatTick", 0.0f, secondPerBeat);
     }
     
     void Update()
     {
-        musicTimer += Time.deltaTime;
+        if (Input.GetKey("space") && !isStartPlay)
+        {
+            isStartPlay = true;
 
-        IsOntheBeat();
+            AS.loop = true;
+            AS.Play();
+            BeatMatchingStart();
+        }
+
+        if (isMusicTimerStart)
+        {
+            musicTimer += Time.deltaTime;
+            //Debug.Log("Music Time: " + musicTimer);
+        }
+
+        if (isStartPlay)
+        {
+            //Debug.Log("Music Time: " + musicTimer);
+            //Debug.Log("Music Time: " + musicTimer + " Beat tick: " + thisBeatTime + " Beat tick Next: " + nextBeatTime);
+            IsOntheBeat();
+        }
+    }
+
+    void BeatMatchingStart()
+    {
+        Debug.Log("BeatMatchingStar!");
+
+        secondPerBeat = (60 / MusicBPM) / (NoteValue / 4);
+        //secondPerBeat = 0.25f;
+
+        Debug.Log("SPB: " + secondPerBeat);
+
+        musicTimer = 0.0f;
+        isMusicTimerStart = true;
+
+        thisBeatTime = 0;
+        nextBeatTime = secondPerBeat;
+
+        //StartCoroutine(BeatChecker());
+
+        InvokeRepeating("BeatTick", 0.0f, secondPerBeat);
     }
 
     void BeatTick()

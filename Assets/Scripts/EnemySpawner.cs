@@ -11,9 +11,24 @@ public class EnemySpawner : MonoBehaviour
     public Transform playerTransform;
     public Vector2 scaleRange = new Vector2(0.5f, 4f);
 
+    //在音乐开始播放后才开始生成敌人
+    //public BeatMatching beatMatching;
+    //private bool isStartSpawn;
+
     private void Start()
     {
         StartCoroutine(SpawnEnemies());
+
+        //isStartSpawn = false;
+    }
+
+    private void Update()
+    {
+        //if (beatMatching.isStartPlay && !isStartSpawn)
+        //{
+        //    isStartSpawn = true;
+        //    StartCoroutine(SpawnEnemies());
+        //}
     }
 
     IEnumerator SpawnEnemies()
